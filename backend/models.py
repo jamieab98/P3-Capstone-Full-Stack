@@ -4,6 +4,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(20), nullable=False)
+    manager = db.Column(db.Boolean, nullable=False)
+    workers = db.Column(db.JSON, default=list)
     assigned_tasks = db.relationship("AssignedTask", backref="user", lazy=True)
     daily_tasks = db.relationship("DailyTask", backref="user", lazy=True)
 
