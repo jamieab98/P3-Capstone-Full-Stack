@@ -5,14 +5,14 @@ from datetime import date
 
 with app.app_context():
     User.query.delete()
-    AssignedTask.delete()
-    DailyTask.delete()
+    AssignedTask.query.delete()
+    DailyTask.query.delete()
 
     u1 = User(username="jamieab98", password="123456", manager=True, workers_id=[2, 3])
     u2 = User(username="bobbyb44", password="6767", manager=False)
     u3 = User(username="michaelb", password="durrr", manager=False)
 
-    a1 = AssignedTask(assiged_task_description="Find a pookie", owner_id=2)
+    a1 = AssignedTask(assigned_task_description="Find a pookie", owner_id=2)
     a2 = AssignedTask(assigned_task_description="Date your pookie", owner_id=2)
     a3 = AssignedTask(assigned_task_description="Stop bothering your pookie", owner_id=3)
     a4 = AssignedTask(assigned_task_description="Finish putting your bed together", owner_id=3)
@@ -24,3 +24,6 @@ with app.app_context():
     d5 = DailyTask(daily_task_description="Log your connections in production timer", owner_id=2)
     d6 = DailyTask(daily_task_description="Sweep the kitchen", owner_id=3)
     d7 = DailyTask(daily_task_description="Cout your chickens before they hatch", owner_id=3)
+
+    db.session.add_all([u1, u2, u3, a1, a2, a3, a4, d1, d2, d3, d4, d5, d6, d7])
+    db.session.commit()
