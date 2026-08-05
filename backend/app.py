@@ -24,11 +24,17 @@ class Login(Resource):
         data = request.json
         user = User.query.filter_by(username=data.get('username')).first()
         if not user or data.get('password') != user.password:
-            return{'error': 'Failed Login Attempt'}
+            return{'error': 'Failed Login Attempt'}, 401
+        return(user.to_dict())
+
+class UserData(Resource):
+    def get(self, id):
+        user = User.query.filter_by(id=id).first()
         return(user.to_dict())
 
 api.add_resource(Home, "/")
 api.add_resource(Login, "/login")
+api.add_resource(UserData, "/userdata/<int:id>")
 
 if __name__ == "__main__":
     app.run(debug=True)

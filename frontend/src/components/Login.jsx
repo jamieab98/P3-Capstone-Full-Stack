@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-function Login(){
+function Login({setUserID, setView}){
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
@@ -16,8 +16,16 @@ function Login(){
                 password: password
             })
         })
-        .then(response=>response.json())
-        .then(data=>console.log(data))
+        .then(response=>{
+            if (!response.ok){
+                return null
+            }
+            return response.json()
+        })
+        .then(data=>{
+            setUserID(data.id)
+            setView('dashboard')
+        })
     }
 
     return(
