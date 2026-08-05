@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Api, Resource
 from extensions import migrate, db, cors
 
@@ -19,7 +19,16 @@ class Home(Resource):
     def get(self):
         return {'message': 'The backend is running'}
 
+class Login(Resource):
+    def post(self):
+        data = request.json
+        user = User.query.filter_by(username=data.get('username')).first()
+        if not user or data.get('password') != user.password:
+            return{'error': 'Failed Login Attempt'}
+        return(user.to_dict())
+
 api.add_resource(Home, "/")
+api.add_resource(Login, "/login")
 
 if __name__ == "__main__":
     app.run(debug=True)
