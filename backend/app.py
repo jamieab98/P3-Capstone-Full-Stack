@@ -10,6 +10,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 cors(app)
 migrate.init_app(app, db)
+
+from models import User, AssignedTask, DailyTask
+
 api = Api(app)
 
 class Home(Resource):
