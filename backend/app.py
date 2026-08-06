@@ -49,9 +49,21 @@ class UserData(Resource):
         }
         return(userdata)
 
+class UserTasks(Resource):
+    def get(self, id):
+        user_assigned_tasks = AssignedTask.query.filter_by(owner_id=id).all()
+        user_daily_tasks = DailyTask.query.filter_by(owner_id=id).all()
+        user_tasks = []
+        for t in user_assigned_tasks:
+            user_tasks.append(t.to_dict())
+        for t in user_daily_tasks:
+            user_tasks.append(t.to_dict())
+        return(user_tasks)
+
 api.add_resource(Home, "/")
 api.add_resource(Login, "/login")
 api.add_resource(UserData, "/userdata/<int:id>")
+api.add_resource(UserTasks, "/usertasks/<int:id>")
 
 if __name__ == "__main__":
     app.run(debug=True)
