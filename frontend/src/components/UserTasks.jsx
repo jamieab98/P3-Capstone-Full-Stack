@@ -1,4 +1,4 @@
-function UserTasks(){
+function UserTasks({setView, userID}){
 
     const tasks = [
             {

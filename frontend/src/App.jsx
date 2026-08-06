@@ -15,6 +15,7 @@ function App(){
       <h1>App</h1>
       {view == 'login' && <Login setUserID={setUserID} setView={setView}/>}
       {view == 'dashboard' && <UserDashboard setView={setView} userID={userID}/>}
+      {view == 'usertasks' && <UserTasks userID={userID} setView={setView}/>}
     </>
   )
 }

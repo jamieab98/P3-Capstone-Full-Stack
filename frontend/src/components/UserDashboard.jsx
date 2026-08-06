@@ -17,6 +17,10 @@ function UserDashboard({setView, userID}){
         })
     }, [])
 
+    function ViewTasks(){
+        setView('usertasks')
+    }
+
     return(
         <>
             <Logout setView={setView}/>
@@ -24,6 +28,7 @@ function UserDashboard({setView, userID}){
             <h3>Welcome {userData.username}!</h3>
             <h5>Employee ID: {userData.id}</h5>
             <span>You have {incompleteTasks} tasks to complete</span>
+            <button onClick={ViewTasks}>View Tasks</button>
         </>
     )
 }
