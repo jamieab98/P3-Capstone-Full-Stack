@@ -1,4 +1,4 @@
-from flask import Flask, request, session
+from flask import Flask, request
 from flask_restful import Api, Resource
 from extensions import migrate, db, cors
 
@@ -20,30 +20,36 @@ class Home(Resource):
     def get(self):
         return {'message': 'The backend is running'}
 
-class CheckSession(Resource):
-    def get(self):
-        user_id = session.get('user_id')
-        if not user_id:
-            return{'error': 'Not logged in'}, 401
-        user = User.query.filter_by(id=user_id).first()
-        return user.to_dict(), 200
-
 class Login(Resource):
     def post(self):
         data = request.json
         user = User.query.filter_by(username=data.get('username')).first()
         if not user or data.get('password') != user.password:
             return{'error': 'Failed Login Attempt'}, 401
-        session['user_id'] = user.id
         return(user.to_dict())
 
 class UserData(Resource):
     def get(self, id):
         user = User.query.filter_by(id=id).first()
-        return(user.to_dict())
+        assigned_tasks = AssignedTask.query.filter_by(owner_id=id).all()
+        daily_tasks = DailyTask.query.filter_by(owner_id=id).all()
+        atasks = []
+        dtasks = []
+        for task in assigned_tasks:
+            atasks.append(task.to_dict())
+        for task in daily_tasks:
+            dtasks.append(task.to_dict())
+        userdata = {
+            'id': user.id,
+            'username': user.username,
+            'manager': user.manager,
+            'workers_id': user.workers_id,
+            'assigned_tasks': atasks,
+            'daily_tasks': dtasks
+        }
+        return(userdata)
 
 api.add_resource(Home, "/")
-api.add_resource(CheckSession, "/checksession")
 api.add_resource(Login, "/login")
 api.add_resource(UserData, "/userdata/<int:id>")
 
