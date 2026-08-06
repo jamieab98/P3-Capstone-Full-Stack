@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 
+import Logout from "./Logout"
+
 function UserTasks({setView, userID}){
 
     const [dailyTasks, setDailyTasks] = useState([])
@@ -16,6 +18,7 @@ function UserTasks({setView, userID}){
 
     return(
         <>
+            <Logout setView={setView}/>
             <h2>User Tasks Component</h2>
             <div>
                 <h3>Daily Tasks</h3>
