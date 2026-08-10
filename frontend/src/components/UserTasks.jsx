@@ -13,8 +13,19 @@ function UserTasks({setView, userID}){
         .then(data => {
             setDailyTasks(data.filter(task => "daily_task_description" in task))
             setAssignedTasks(data.filter(task => "assigned_task_description" in task))
+            console.log(data)
         })
     }, [])
+
+    function markComplete(id, type){
+        fetch(`http://127.0.0.1:5000/changecompletion/${id}`, {
+            method: "PATCH",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({"type": type})
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+    }
 
     return(
         <>
@@ -28,9 +39,9 @@ function UserTasks({setView, userID}){
                         <br/>
                         <span>Task Deadline:</span>
                         <br/>
-                        <span>Completion Status: </span>{task.completion_staus ? <span>Complete!</span> : <span>Incomplete</span>}
+                        <span>Completion Status: </span>{task.completion_status ? <span>Complete!</span> : <span>Incomplete</span>}
                         <br/>
-                        <button>Change Completion Status</button>
+                        <button onClick={()=>markComplete(task.id, "daily")}>Change Completion Status</button>
                         <br/><br/>
                     </div>
                 ))}
@@ -41,9 +52,9 @@ function UserTasks({setView, userID}){
                         <br/>
                         <span>Task Deadline:</span>
                         <br/>
-                        <span>Completion Status: </span>{task.completion_staus ? <span>Complete!</span> : <span>Incomplete</span>}
+                        <span>Completion Status: </span>{task.completion_status ? <span>Complete!</span> : <span>Incomplete</span>}
                         <br/>
-                        <button>Change Completion Status</button>
+                        <button onClick={()=>markComplete(task.id, "assigned")}>Change Completion Status</button>
                         <br/><br/>
                     </div>
                 ))}

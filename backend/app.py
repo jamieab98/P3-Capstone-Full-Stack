@@ -60,10 +60,25 @@ class UserTasks(Resource):
             user_tasks.append(t.to_dict())
         return(user_tasks)
 
+class ChangeCompletion(Resource):
+    def patch(self, id):
+        data = request.json
+        if data['type']=='daily':
+            task = DailyTask.query.filter_by(id=id).first()
+        else:
+            task = AssignedTask.query.filter_by(id=id).first()
+        if task.completion_status == True:
+            task.completion_status = False
+        else:
+            task.completion_status = True
+        db.session.commit()
+        return(task.to_dict()), 200
+
 api.add_resource(Home, "/")
 api.add_resource(Login, "/login")
 api.add_resource(UserData, "/userdata/<int:id>")
 api.add_resource(UserTasks, "/usertasks/<int:id>")
+api.add_resource(ChangeCompletion, "/changecompletion/<int:id>")
 
 if __name__ == "__main__":
     app.run(debug=True)
