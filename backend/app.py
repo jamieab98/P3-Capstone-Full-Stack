@@ -74,11 +74,25 @@ class ChangeCompletion(Resource):
         db.session.commit()
         return(task.to_dict()), 200
 
+class AssignTask(Resource):
+    def post(self, id):
+        data = request.json
+        assigner = User.query.filter_by(id=id).first()
+        if not assigner.manager:
+            return {'message': 'User is not a manager and cannot assign tasks'}
+        if int(data['ownerID']) not in assigner.workers_id:
+            return {'message': 'User is not a manager of the employee and thus cannot assign an assignment to this employee'}
+        newTask = AssignedTask(assigned_task_description=data['description'], owner_id=data['ownerID'])
+        db.session.add(newTask)
+        db.session.commit()
+        return(newTask.to_dict())
+
 api.add_resource(Home, "/")
 api.add_resource(Login, "/login")
 api.add_resource(UserData, "/userdata/<int:id>")
 api.add_resource(UserTasks, "/usertasks/<int:id>")
 api.add_resource(ChangeCompletion, "/changecompletion/<int:id>")
+api.add_resource(AssignTask, "/assigntask/<int:id>")
 
 if __name__ == "__main__":
     app.run(debug=True)
