@@ -17,7 +17,16 @@ function AssignTask({setView, userID}){
             body: JSON.stringify({"ownerID": ownerID, "description": description})
         })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            if ('error' in data){
+                console.log('There was an error')
+            }
+            else{
+                console.log('Task successfully added')
+                setOwnerID(0)
+                setDescription("")
+            }
+        })
     }
 
     return(

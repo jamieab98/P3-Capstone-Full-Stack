@@ -79,13 +79,13 @@ class AssignTask(Resource):
         data = request.json
         assigner = User.query.filter_by(id=id).first()
         if not assigner.manager:
-            return {'message': 'User is not a manager and cannot assign tasks'}
+            return {'error': 'User is not a manager and cannot assign tasks'}, 400
         if int(data['ownerID']) not in assigner.workers_id:
-            return {'message': 'User is not a manager of the employee and thus cannot assign an assignment to this employee'}
+            return {'error': 'User is not a manager of the employee and thus cannot assign an assignment to this employee'}, 400
         newTask = AssignedTask(assigned_task_description=data['description'], owner_id=data['ownerID'])
         db.session.add(newTask)
         db.session.commit()
-        return(newTask.to_dict())
+        return(newTask.to_dict()), 200
 
 api.add_resource(Home, "/")
 api.add_resource(Login, "/login")
