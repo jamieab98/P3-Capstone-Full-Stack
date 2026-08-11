@@ -13,7 +13,6 @@ function UserTasks({setView, userID}){
         .then(data => {
             setDailyTasks(data.filter(task => "daily_task_description" in task))
             setAssignedTasks(data.filter(task => "assigned_task_description" in task))
-            console.log(data)
         })
     }, [])
 
@@ -24,7 +23,14 @@ function UserTasks({setView, userID}){
             body: JSON.stringify({"type": type})
         })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            return fetch(`http://127.0.0.1:5000/usertasks/${userID}`)
+        })
+        .then(response => response.json())
+        .then(data => {
+            setDailyTasks(data.filter(task => "daily_task_description" in task))
+            setAssignedTasks(data.filter(task => "assigned_task_description" in task))
+        })
     }
 
     return(
