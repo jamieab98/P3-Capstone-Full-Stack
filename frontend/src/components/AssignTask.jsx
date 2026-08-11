@@ -9,8 +9,15 @@ function AssignTask({setView, userID}){
         setView('dashboard')
     }
 
-    function handleAssignTask(){
-        
+    function handleAssignTask(e){
+        e.preventDefault()
+        fetch(`http://127.0.0.1:5000/assigntask/${userID}`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({"ownerID": ownerID, "description": description})
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
     }
 
     return(
