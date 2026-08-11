@@ -33,9 +33,14 @@ function UserTasks({setView, userID}){
         })
     }
 
+    function toDashboard(){
+        setView('dashboard')
+    }
+
     return(
         <>
             <Logout setView={setView}/>
+            <button onClick={()=>toDashboard()}>Back to Dashboard</button>
             <h2>User Tasks Component</h2>
             <div>
                 <h3>Daily Tasks</h3>
