@@ -55,7 +55,6 @@ class UserTasks(Resource):
 
 class ChangeCompletion(Resource):
     def patch(self, id):
-        data = request.json
         task = AssignedTask.query.filter_by(id=id).first()
         if task.completion_status == True:
             task.completion_status = False
