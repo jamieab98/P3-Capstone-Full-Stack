@@ -1,6 +1,6 @@
 from app import app
 from extensions import db
-from models import User, AssignedTask, DailyTask
+from models import User, AssignedTask
 from datetime import date
 
 with app.app_context():
@@ -15,6 +15,7 @@ with app.app_context():
     a2 = AssignedTask(assigned_task_description="Date your pookie", owner_id=2)
     a3 = AssignedTask(assigned_task_description="Stop bothering your pookie", owner_id=3)
     a4 = AssignedTask(assigned_task_description="Finish putting your bed together", owner_id=3)
+    a5 = AssignedTask(assigned_task_description="Complete this assignment", owner_id=1)
 
-    db.session.add_all([u1, u2, u3, a1, a2, a3, a4])
+    db.session.add_all([u1, u2, u3, a1, a2, a3, a4, a5])
     db.session.commit()
