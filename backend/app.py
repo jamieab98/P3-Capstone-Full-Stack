@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_restful import Api, Resource
+from datetime import date
 from extensions import migrate, db, cors
 
 app = Flask(__name__)
@@ -65,6 +66,13 @@ class ChangeCompletion(Resource):
         data = request.json
         if data['type']=='daily':
             task = DailyTask.query.filter_by(id=id).first()
+            print("Before:", task.completion_status, task.dates_completed)
+            if task.completion_status == False:
+                task.dates_completed.append(date.today())
+                print(task.dates_completed)
+            else:
+                #task.dates_completed.remove(date.today())
+                print(task.dates_completed)
         else:
             task = AssignedTask.query.filter_by(id=id).first()
         if task.completion_status == True:
