@@ -13,7 +13,7 @@ db.init_app(app)
 cors(app)
 migrate.init_app(app, db)
 
-from models import User, AssignedTask, DailyTask
+from models import User, AssignedTask
 
 api = Api(app)
 
@@ -33,48 +33,30 @@ class UserData(Resource):
     def get(self, id):
         user = User.query.filter_by(id=id).first()
         assigned_tasks = AssignedTask.query.filter_by(owner_id=id).all()
-        daily_tasks = DailyTask.query.filter_by(owner_id=id).all()
         atasks = []
-        dtasks = []
         for task in assigned_tasks:
             atasks.append(task.to_dict())
-        for task in daily_tasks:
-            dtasks.append(task.to_dict())
         userdata = {
             'id': user.id,
             'username': user.username,
             'manager': user.manager,
             'workers_id': user.workers_id,
             'assigned_tasks': atasks,
-            'daily_tasks': dtasks
         }
         return(userdata)
 
 class UserTasks(Resource):
     def get(self, id):
         user_assigned_tasks = AssignedTask.query.filter_by(owner_id=id).all()
-        user_daily_tasks = DailyTask.query.filter_by(owner_id=id).all()
         user_tasks = []
         for t in user_assigned_tasks:
-            user_tasks.append(t.to_dict())
-        for t in user_daily_tasks:
             user_tasks.append(t.to_dict())
         return(user_tasks)
 
 class ChangeCompletion(Resource):
     def patch(self, id):
         data = request.json
-        if data['type']=='daily':
-            task = DailyTask.query.filter_by(id=id).first()
-            print("Before:", task.completion_status, task.dates_completed)
-            if task.completion_status == False:
-                task.dates_completed.append(date.today())
-                print(task.dates_completed)
-            else:
-                #task.dates_completed.remove(date.today())
-                print(task.dates_completed)
-        else:
-            task = AssignedTask.query.filter_by(id=id).first()
+        task = AssignedTask.query.filter_by(id=id).first()
         if task.completion_status == True:
             task.completion_status = False
         else:
