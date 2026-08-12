@@ -1,4 +1,6 @@
 from extensions import db
+from sqlalchemy.ext.mutable import MutableList
+from sqlalchemy import JSON
 
 class User(db.Model):
     __tablename__ = "users"
@@ -6,7 +8,7 @@ class User(db.Model):
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(225), nullable=False)
     manager = db.Column(db.Boolean, nullable=False)
-    workers_id = db.Column(db.JSON, default=list, nullable=True)
+    workers_id = db.Column(MutableList.as_mutable(JSON), default=list, nullable=True)
     assigned_tasks = db.relationship("AssignedTask", backref="user", lazy=True)
 
     def to_dict(self):

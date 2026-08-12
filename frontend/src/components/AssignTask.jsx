@@ -19,6 +19,7 @@ function AssignTask({setView, userID}){
         .then(response => response.json())
         .then(data => {
             if ('error' in data){
+                console.log(data['error'])
                 console.log('There was an error')
             }
             else{

@@ -70,11 +70,36 @@ class AssignTask(Resource):
         if not assigner.manager:
             return {'error': 'User is not a manager and cannot assign tasks'}, 400
         if int(data['ownerID']) not in assigner.workers_id:
+            print(assigner.to_dict())
             return {'error': 'User is not a manager of the employee and thus cannot assign an assignment to this employee'}, 400
         newTask = AssignedTask(assigned_task_description=data['description'], owner_id=data['ownerID'])
         db.session.add(newTask)
         db.session.commit()
         return(newTask.to_dict()), 200
+
+class CreateUser(Resource):
+    def post(self, id):
+        data = request.json
+        users = User.query.all()
+        usernames = []
+        for u in users:
+            usernames.append(u.username)
+        if not data['username']:
+            return{'error': 'Username field must be filled out'}, 400
+        if data['username'] in usernames:
+            return{'error': 'Username must be unique'}, 400
+        if data['password'] != data['confirm_password']:
+            return{'error': 'Passwords do not match'}, 400
+        new_user = User(username=data['username'], password=data['password'], manager=id)
+        db.session.add(new_user)
+        db.session.commit()
+        manager = User.query.filter_by(id=id).first()
+        new_user_id = User.query.filter_by(username=data['username']).first().id
+        manager.workers_id.append(new_user_id)
+        db.session.commit()
+        print(manager.to_dict())
+        print(new_user)
+        return(new_user.to_dict()), 200
 
 api.add_resource(Home, "/")
 api.add_resource(Login, "/login")
@@ -82,6 +107,7 @@ api.add_resource(UserData, "/userdata/<int:id>")
 api.add_resource(UserTasks, "/usertasks/<int:id>")
 api.add_resource(ChangeCompletion, "/changecompletion/<int:id>")
 api.add_resource(AssignTask, "/assigntask/<int:id>")
+api.add_resource(CreateUser,"/createuser/<int:id>")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -12,9 +12,23 @@ function Onboard({userID, setView}){
 
     function CreateUser(e){
         e.preventDefault()
-        console.log(username)
-        console.log(password)
-        console.log(confirmPassword)
+        fetch(`http://127.0.0.1:5000/createuser/${userID}`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({"username": username, "password": password, "confirm_password": confirmPassword})
+        })
+        .then(response=>response.json())
+        .then(data=>{
+            if ('error' in data){
+                console.log(data['error'])
+            }
+            else{
+                console.log('User was successfully created!')
+                //setUsername('')
+                //setPassword('')
+                //setConfirmPassword('')
+            }
+        })
     }
 
     return(
