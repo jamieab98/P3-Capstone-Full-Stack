@@ -12,8 +12,7 @@ function UserDashboard({setView, userID}){
         .then(data => {
             setUserData(data)
             const incompleteAssigned = data.assigned_tasks.filter(task => task.completion_status == false).length
-            const incompleteDaily = data.daily_tasks.filter(task => task.completion_status == false).length
-            setIncompleteTasks(incompleteAssigned + incompleteDaily)
+            setIncompleteTasks(incompleteAssigned)
         })
     }, [])
 
