@@ -3,6 +3,7 @@ import UserDashboard from "./components/UserDashboard"
 import UserTasks from "./components/UserTasks"
 import AssignedTasks from "./components/AssignedTasks"
 import AssignTask from "./components/AssignTask"
+import Onboard from "./components/Onboard"
 
 import { useState } from "react"
 
@@ -18,6 +19,7 @@ function App(){
       {view == 'dashboard' && <UserDashboard setView={setView} userID={userID}/>}
       {view == 'usertasks' && <UserTasks userID={userID} setView={setView}/>}
       {view == 'assigntask' && <AssignTask userID={userID} setView={setView}/>}
+      {view == 'onboard' && <Onboard userID={userID} setView={setView}/>}
     </>
   )
 }
