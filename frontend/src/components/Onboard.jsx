@@ -24,9 +24,9 @@ function Onboard({userID, setView}){
             }
             else{
                 console.log('User was successfully created!')
-                //setUsername('')
-                //setPassword('')
-                //setConfirmPassword('')
+                setUsername('')
+                setPassword('')
+                setConfirmPassword('')
             }
         })
     }
