@@ -79,6 +79,9 @@ class AssignTask(Resource):
 
 class CreateUser(Resource):
     def post(self, id):
+        manager = User.query.filter_by(id=id).first()
+        if not manager.manager:
+            return{'error': 'Employee is not a manager can cannot onboard'}, 400
         data = request.json
         users = User.query.all()
         usernames = []
@@ -93,12 +96,9 @@ class CreateUser(Resource):
         new_user = User(username=data['username'], password=data['password'], manager=id)
         db.session.add(new_user)
         db.session.commit()
-        manager = User.query.filter_by(id=id).first()
         new_user_id = User.query.filter_by(username=data['username']).first().id
         manager.workers_id.append(new_user_id)
         db.session.commit()
-        print(manager.to_dict())
-        print(new_user)
         return(new_user.to_dict()), 200
 
 api.add_resource(Home, "/")

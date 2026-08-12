@@ -8,7 +8,7 @@ with app.app_context():
     AssignedTask.query.delete()
 
     u1 = User(username="jamieab98", password="123456", manager=True, workers_id=[2, 3])
-    u2 = User(username="bobbyb44", password="6767", manager=False)
+    u2 = User(username="bobbyb44", password="6767", manager=True)
     u3 = User(username="michaelb", password="durrr", manager=False)
 
     a1 = AssignedTask(assigned_task_description="Find a pookie", owner_id=2)

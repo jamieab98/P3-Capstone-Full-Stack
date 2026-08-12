@@ -7,7 +7,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(225), nullable=False)
-    manager = db.Column(db.Boolean, nullable=False)
+    manager = db.Column(db.Boolean, default=False, nullable=False)
     workers_id = db.Column(MutableList.as_mutable(JSON), default=list, nullable=True)
     assigned_tasks = db.relationship("AssignedTask", backref="user", lazy=True)
 
