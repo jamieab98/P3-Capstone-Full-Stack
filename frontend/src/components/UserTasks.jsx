@@ -34,6 +34,10 @@ function UserTasks({setView, userID}){
         setView('dashboard')
     }
 
+    function DeleteTask(id){
+        console.log('Deleting Task', id)
+    }
+
     return(
         <>
             <Logout setView={setView}/>
@@ -50,6 +54,8 @@ function UserTasks({setView, userID}){
                         <span>Completion Status: </span>{task.completion_status ? <span>Complete!</span> : <span>Incomplete</span>}
                         <br/>
                         <button onClick={()=>markComplete(task.id, "assigned")}>Change Completion Status</button>
+                        <br/>
+                        <button onClick={()=>DeleteTask(task.id)}>Delete Task</button>
                         <br/><br/>
                     </div>
                 ))}
