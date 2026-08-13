@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react"
+import DeleteConfirmation from "./DeleteConfirmation"
 
 import Logout from "./Logout"
 
 function UserTasks({setView, userID}){
 
     const [assignedTasks, setAssignedTasks] = useState([])
+    const [deleting, setDeleting] = useState(false)
+    const [deletingTask, setDeletingTask] = useState()
 
     useEffect(()=>{
         fetch(`http://127.0.0.1:5000/usertasks/${userID}`)
@@ -36,6 +39,8 @@ function UserTasks({setView, userID}){
 
     function DeleteTask(id){
         console.log('Deleting Task', id)
+        setDeleting(true)
+        setDeletingTask(id)
     }
 
     return(
@@ -60,6 +65,7 @@ function UserTasks({setView, userID}){
                     </div>
                 ))}
             </div>
+            {deleting == true && <DeleteConfirmation/>}
         </>
     )
 }
