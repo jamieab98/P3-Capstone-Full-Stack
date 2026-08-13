@@ -93,7 +93,7 @@ class CreateUser(Resource):
             return{'error': 'Username must be unique'}, 400
         if data['password'] != data['confirm_password']:
             return{'error': 'Passwords do not match'}, 400
-        new_user = User(username=data['username'], password=data['password'], manager=id)
+        new_user = User(username=data['username'], password=data['password'])
         db.session.add(new_user)
         db.session.commit()
         new_user_id = User.query.filter_by(username=data['username']).first().id
