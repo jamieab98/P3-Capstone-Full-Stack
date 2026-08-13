@@ -64,7 +64,7 @@ function UserTasks({setView, userID}){
                     </div>
                 ))}
             </div>
-            {deleting == true && <DeleteConfirmation userID={userID} deletingTask={deletingTask} setDeleting={setDeleting}/>}
+            {deleting == true && <DeleteConfirmation userID={userID} deletingTask={deletingTask} setDeleting={setDeleting} setAssignedTasks={setAssignedTasks}/>}
         </>
     )
 }

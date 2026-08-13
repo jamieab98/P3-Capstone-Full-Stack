@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-function DeleteConfirmation({userID, deletingTask, setDeleting}){
+function DeleteConfirmation({userID, deletingTask, setDeleting, setAssignedTasks}){
 
     const [password, setPassword] = useState("")
 
@@ -19,6 +19,9 @@ function DeleteConfirmation({userID, deletingTask, setDeleting}){
             else{
                 console.log(data)
                 setDeleting(false)
+                fetch(`http://127.0.0.1:5000/usertasks/${userID}`)
+                .then(response=>response.json())
+                .then(data => {setAssignedTasks(data.filter(task => "assigned_task_description" in task))})
             }
         })
     }
