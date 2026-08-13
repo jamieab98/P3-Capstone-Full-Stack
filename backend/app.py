@@ -101,13 +101,18 @@ class CreateUser(Resource):
         db.session.commit()
         return(new_user.to_dict()), 200
 
+class DeleteTask(Resource):
+    def delete(self, id):
+        print(id)
+
 api.add_resource(Home, "/")
 api.add_resource(Login, "/login")
 api.add_resource(UserData, "/userdata/<int:id>")
 api.add_resource(UserTasks, "/usertasks/<int:id>")
 api.add_resource(ChangeCompletion, "/changecompletion/<int:id>")
 api.add_resource(AssignTask, "/assigntask/<int:id>")
-api.add_resource(CreateUser,"/createuser/<int:id>")
+api.add_resource(CreateUser, "/createuser/<int:id>")
+api.add_resource(DeleteTask, "/deletetask/<int:id>")
 
 if __name__ == "__main__":
     app.run(debug=True)

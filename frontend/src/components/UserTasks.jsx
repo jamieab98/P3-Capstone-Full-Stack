@@ -7,7 +7,7 @@ function UserTasks({setView, userID}){
 
     const [assignedTasks, setAssignedTasks] = useState([])
     const [deleting, setDeleting] = useState(false)
-    const [deletingTask, setDeletingTask] = useState()
+    const [deletingTask, setDeletingTask] = useState(0)
 
     useEffect(()=>{
         fetch(`http://127.0.0.1:5000/usertasks/${userID}`)
@@ -65,7 +65,7 @@ function UserTasks({setView, userID}){
                     </div>
                 ))}
             </div>
-            {deleting == true && <DeleteConfirmation/>}
+            {deleting == true && <DeleteConfirmation userID={userID} deletingTask={deletingTask}/>}
         </>
     )
 }

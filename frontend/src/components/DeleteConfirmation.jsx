@@ -1,13 +1,19 @@
 import { useState } from "react"
 
-function DeleteConfirmation(){
+function DeleteConfirmation({userID, deletingTask}){
 
-    const [password, setPassword] = useState()
+    const [password, setPassword] = useState("")
 
     function ConfirmDelete(e){
         e.preventDefault()
-        console.log('Confirming task deletion')
-        console.log(password)
+        console.log(deletingTask)
+        fetch(`http://127.0.0.1:5000/deletetask/${deletingTask}`,{
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({'manager_password': password, 'user_id': userID})
+        })  
+        .then(response=>response.json())
+        .then(data=>console.log(data))
     }
 
     return(
