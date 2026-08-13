@@ -38,7 +38,6 @@ function UserTasks({setView, userID}){
     }
 
     function DeleteTask(id){
-        console.log('Deleting Task', id)
         setDeleting(true)
         setDeletingTask(id)
     }
@@ -65,7 +64,7 @@ function UserTasks({setView, userID}){
                     </div>
                 ))}
             </div>
-            {deleting == true && <DeleteConfirmation userID={userID} deletingTask={deletingTask}/>}
+            {deleting == true && <DeleteConfirmation userID={userID} deletingTask={deletingTask} setDeleting={setDeleting}/>}
         </>
     )
 }

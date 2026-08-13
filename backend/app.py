@@ -103,7 +103,17 @@ class CreateUser(Resource):
 
 class DeleteTask(Resource):
     def delete(self, id):
-        print(id)
+        data = request.json
+        task = AssignedTask.query.filter_by(id=id).first()
+        employee = User.query.filter_by(id=task.owner_id).first()
+        manager = User.query.filter(User.workers_id.contains(employee.id)).first()
+        print(manager.to_dict())
+        if manager.password != data['manager_password']:
+            print(manager.username)
+            return{'error': 'incorrect password'}, 400
+        db.session.delete(task)
+        db.session.commit()
+        return {'message': 'task has been deleted'}, 200
 
 api.add_resource(Home, "/")
 api.add_resource(Login, "/login")
