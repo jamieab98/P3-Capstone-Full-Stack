@@ -1,6 +1,5 @@
 from flask import Flask, request
 from flask_restful import Api, Resource
-from datetime import date
 from extensions import migrate, db, cors
 
 app = Flask(__name__)

@@ -2,7 +2,12 @@ Description:
 This appliction simulates a program where users of a company are able to sign in and view tasks that need to be completed. For users that are a manager, they are able to onboard (create a new user). Managers also have the ability to assign tasks to users that report to them. When every user is signed in, they are able to navigate the app to see what tasks are assigned to them and mark them as complete. They can also get a task removed from the dashboard with permission from their manager.
 
 Set up and Run Instructions:
-
+To set up, download to repository. 
+Run pipenv install to download the following dependencies:
+    flask, flask_restful, flask_sqlalchemy, flask_cors, adn flask_migrate
+Run pipenv shell to enter the virtual environment
+To run the front end, navigate to the 'frontend' folder and run 'npm run dev'
+To run the back end, navigate to the 'backend' folder and run 'python3 app.py'
 
 Overview of features and functionality:
 All users are able to log in, log out, view the tasks they need to complete, change the completion status of their tasks, and request to have a task deleted.
